@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.carousel-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.main-slide {
+  padding-top: "30px";
+  width: 70%;
+}
+
+.carousel .slider-wrapper {
+  width: 50%;
+}
+
+.carousel .thumb {
+  width: 50%;
+  height: 0px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.carousel {
+  text-align: center;
+}
