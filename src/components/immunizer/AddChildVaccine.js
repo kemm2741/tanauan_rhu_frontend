@@ -13,6 +13,13 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+// Modal Material UI
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
+
+import Select from "react-select";
+
 // Import axios
 import axios from "axios";
 
@@ -58,28 +65,16 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   modal: {
-    marginInline: "auto",
-    width: "300px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
   },
-  paperModal: {
+  paper: {
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(1, 3, 2),
+    padding: theme.spacing(2, 4, 3),
   },
-  qrDiv: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-  },
-  qrButton: {
-    marginTop: "30px",
-  },
-  qrCodeText: { textAlign: "center" },
 }));
 
 //
@@ -105,21 +100,24 @@ const AddVaccineChild = () => {
     gender: "",
     age: "",
     birthday: "",
-    immunizer: "",
     brgy: "",
+    immunizationType: "",
   };
 
   const [userData, setUserData] = useState(initalState);
   const [isLoading, setIsLoading] = useState(false);
+  const [immunizations, setImmunizations] = useState([]);
 
   //   Fetched Barangays
   const [barangays, setBarangays] = useState([]);
 
-  const [selectedDate, setSelectedDate] = React.useState(
-    new Date("2020-08-18T21:11:54")
+  const [selectedDate, setSelectedDate] = useState(
+    // new Date("2020-08-18T21:11:54")
+    ""
   );
 
   const handleDateChange = (date) => {
+    console.log(1);
     setSelectedDate(date);
   };
 
@@ -139,9 +137,16 @@ const AddVaccineChild = () => {
       const { data } = await axios.get(
         `https://tanuan-backend.herokuapp.com/api/barangay`
       );
-      setBarangays(data);
+      //   setBarangays(data);
 
-      console.log(data);
+      setBarangays(
+        data.map(({ barangay }) => {
+          return {
+            value: barangay._id,
+            label: barangay.barangayName,
+          };
+        })
+      );
 
       setIsLoading(false);
     } catch (error) {
@@ -149,23 +154,38 @@ const AddVaccineChild = () => {
     }
   };
 
-  useEffect(() => {
-    fetchBarangay();
-  }, []);
+  const fetchAvailableImmunization = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await axios.get(
+        "https://tanuan-backend.herokuapp.com/api/children"
+      );
+
+      setImmunizations(data);
+
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  const handleBarangayOnChange = ({ value }) => {
+    setUserData({ ...userData, brgy: value });
+  };
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   // Add Child Vacinated
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const {
-      firstName,
-      middleName,
-      lastName,
-      gender,
-      age,
-      birthday,
-      immunizer,
-      brgy,
-    } = userData;
+    const { firstName, middleName, lastName, gender, age, brgy } = userData;
 
     if (firstName === "") {
       return Swal.fire("Error", "Please enter last name", "error");
@@ -183,54 +203,59 @@ const AddVaccineChild = () => {
     }
 
     if (age === "") {
+      return Swal.fire("Error", "Please enter age", "error");
+    }
+
+    if (selectedDate === "") {
+      console.log("selected date", selectedDate);
       return Swal.fire("Error", "Please enter birthday", "error");
     }
 
-    if (immunizer === "") {
-      return Swal.fire("Error", "Please enter immunizer", "error");
-    }
     if (brgy === "") {
       return Swal.fire("Error", "Please enter brgy", "error");
     }
-
-    if (calculateAge(new Date(selectedDate)) <= 20) {
-      return Swal.fire("Error", "You must be 21 to be a vaccinator", "error");
-    }
-
-    console.log(userData);
 
     // Success No Error
     try {
       setIsLoading(true);
 
-      const { data } = await axios.post(
-        "https://tanuan-backend.herokuapp.com/api/vaccinator/create-vaccinator",
+      console.log(userData);
+
+      const { status, data } = await axios.put(
+        `https://tanuan-backend.herokuapp.com/api/children/addVaccinatedChild/${userData.immunizationType}`,
         {
           firstName,
           middleName,
           lastName,
           gender,
           age,
-          birthday,
-          immunizer,
+          birthday: selectedDate,
           brgy,
         }
       );
 
-      // console.log(data);
+      if (status === 200) {
+        setIsLoading(false);
+        return Swal.fire("Success ", `${data.msg}`, "success");
+      }
 
-      Swal.fire("Success ", "New vaccinator added", "success");
+      return Swal.fire("Warning", `${data.msg}`, "warning");
 
-      history.push("/dashboard");
+      //   history.push("/dashboard");
 
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      Swal.fire("Warning", `${error.response.data.msg}`, "warning");
       setIsLoading(false);
     }
 
     setUserData(initalState);
   };
+
+  useEffect(() => {
+    fetchBarangay();
+    fetchAvailableImmunization();
+  }, []);
 
   return (
     <Grid justifyContent="center" container>
@@ -238,6 +263,28 @@ const AddVaccineChild = () => {
         <CircularProgress />
       ) : (
         <>
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={open}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={open}>
+              <div className={classes.paper}>
+                <h2 id="transition-modal-title">Transition modal</h2>
+                <p id="transition-modal-description">
+                  react-transition-group animates me.
+                </p>
+              </div>
+            </Fade>
+          </Modal>
+
           <Card className={classes.formContainer}>
             <CardContent>
               <Typography
@@ -246,7 +293,7 @@ const AddVaccineChild = () => {
                 gutterBottom
                 variant="h4"
               >
-                Add Vaccinator Form
+                Add Vaccinated Children
               </Typography>
               {/* <Typography paragraph color="textSecondary" gutterBottom>
             Fill up the form to receive a QR code via email.
@@ -254,10 +301,10 @@ const AddVaccineChild = () => {
             </CardContent>
             <form noValidate autoComplete="off">
               <Grid container spacing={2}>
-                <Grid xs={12} sm={6} item>
+                <Grid xs={12} sm={12} item>
                   <TextField
                     onChange={handleOnChange}
-                    name="firstname"
+                    name="firstName"
                     value={userData.firstName}
                     label="First Name"
                     variant="outlined"
@@ -265,10 +312,10 @@ const AddVaccineChild = () => {
                   />
                 </Grid>
 
-                <Grid xs={12} sm={6} item>
+                <Grid xs={12} sm={12} item>
                   <TextField
                     onChange={handleOnChange}
-                    name="middlename"
+                    name="middleName"
                     value={userData.middleName}
                     label=" Middle Name"
                     variant="outlined"
@@ -279,7 +326,7 @@ const AddVaccineChild = () => {
                 <Grid xs={12} sm={12} item>
                   <TextField
                     onChange={handleOnChange}
-                    name="lastname"
+                    name="lastName"
                     value={userData.lastName}
                     label="Last Name"
                     variant="outlined"
@@ -287,12 +334,12 @@ const AddVaccineChild = () => {
                   />
                 </Grid>
 
-                <Grid xs={12} sm={6} item>
+                <Grid xs={12} sm={12} item>
                   <TextField
                     onChange={handleOnChange}
-                    name="sex"
+                    name="gender"
                     value={userData.gender}
-                    label="Sex"
+                    label="Gender"
                     variant="outlined"
                     fullWidth
                     select
@@ -300,6 +347,34 @@ const AddVaccineChild = () => {
                     <MenuItem value="Male">Male</MenuItem>
                     <MenuItem value="Female">Female</MenuItem>
                   </TextField>
+                </Grid>
+
+                {/* <Grid xs={12} sm={12} item>
+                  <TextField
+                    onChange={handleOnChange}
+                    name="brgy"
+                    value={userData.brgy}
+                    label="Barangays"
+                    variant="outlined"
+                    fullWidth
+                    select
+                  >
+                    {barangays.map(({ barangay }) => (
+                      <MenuItem value={barangay._id}>
+                        {barangay.barangayName}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid> */}
+
+                <Grid xs={12} sm={12} item>
+                  <Select
+                    menuPortalTarget={document.body}
+                    // menuPosition={"fixed"}
+                    placeholder="Select Barangay"
+                    onChange={handleBarangayOnChange}
+                    options={barangays}
+                  />
                 </Grid>
 
                 <Grid xs={12} sm={6} item>
@@ -310,7 +385,12 @@ const AddVaccineChild = () => {
                         id="date-picker-dialog"
                         label="Birth Day"
                         format="MM/dd/yyyy"
-                        value={selectedDate}
+                        value={
+                          selectedDate === ""
+                            ? new Date("2020-08-18T21:11:54")
+                            : selectedDate
+                        }
+                        // value={selectedDate}
                         onChange={handleDateChange}
                         variant="outlined"
                         KeyboardButtonProps={{
@@ -321,12 +401,12 @@ const AddVaccineChild = () => {
                   </MuiPickersUtilsProvider>
                 </Grid>
 
-                <Grid xs={12} sm={12} item>
+                <Grid xs={12} sm={6} item>
                   <TextField
                     onChange={handleOnChange}
-                    name="contact"
-                    value={userData.contact}
-                    label="Contact Number"
+                    name="age"
+                    value={userData.age}
+                    label="Age Number"
                     variant="outlined"
                     fullWidth
                   />
@@ -335,18 +415,26 @@ const AddVaccineChild = () => {
                 <Grid xs={12} sm={12} item>
                   <TextField
                     onChange={handleOnChange}
-                    name="email"
-                    value={userData.age}
-                    label="Email"
+                    name="immunizationType"
+                    value={userData.immunization}
+                    label="Immunization Type"
                     variant="outlined"
                     fullWidth
-                  />
+                    select
+                  >
+                    {immunizations?.map((immunization) => (
+                      <MenuItem value={immunization._id}>
+                        {immunization.vaccineName}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Grid>
 
                 <Grid xs={12} sm={12} item>
                   <Button
                     className={classes.formButton}
                     onClick={handleSubmit}
+                    // onClick={handleOpen}
                     type="submit"
                     variant="contained"
                     color="primary"

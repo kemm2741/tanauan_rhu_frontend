@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import Swal from "sweetalert2";
+
 // Import moment
 import moment from "moment";
 
@@ -26,7 +28,7 @@ const Immunizations = () => {
       field: "vaccineName",
     },
     {
-      title: "Immunization Use",
+      title: "Description",
       field: "vaccineUse",
     },
     {
@@ -45,67 +47,7 @@ const Immunizations = () => {
         "4-6 years": "4-6 years",
       },
     },
-    // {
-    //   title: "Vaccination Barangay",
-    //   field: "barangay",
-    //   lookup: {
-    //     Ada: "Ada",
-    //     Amanluran: "Amanluran",
-    //     Arado: "Arado",
-    //     Atipolo: "Atipolo",
-    //     Balud: "Balud",
-    //     Bangon: "Bangon",
-    //     Bantagan: "Bantagan",
-    //     Baras: "Baras",
-    //     Binolo: "Binolo",
-    //     Binongto: "Binongto-an",
-    //     Bislig: "Bislig",
-    //     "Buntay (Poblacion)": "Buntay (Poblacion)",
-    //     Cabalagnan: "Cabalagnan",
-    //     "Cabarasan Guti": "Cabarasan Guti",
-    //     "Cabonga-an": "Cabonga-an",
-    //     Cabuynan: "Cabuynan",
-    //     Cahumayhumayan: "Cahumayhumayan",
-    //     Calogcog: "Calogcog",
-    //     Calsadahay: "Calsadahay",
-    //     Camire: "Camire",
-    //     Canbalisara: "Canbalisara",
-    //     "Canramos (Poblacion)": "Canramos (Poblacion)",
-    //     Catigbian: "Catigbian",
-    //     Catmon: "Catmon",
-    //     Cogon: "Cogon",
-    //     "Guindag-an": "Guindag-an",
-    //     Guingauan: "Guingauan",
-    //     Hilagpad: "Hilagpad",
-    //     Lapay: "Lapay",
-    //     "Licod (Poblacion)": "Licod (Poblacion)",
-    //     "Limbuhan Daku": "Limbuhan Daku",
-    //     "Limbuhan Guti": "Limbuhan Guti",
-    //     Linao: "Linao",
-    //     Kiling: "Kiling",
-    //     Magay: "Magay",
-    //     Maghulod: "Maghulod",
-    //     Malaguicay: "Malaguicay",
-    //     Maribi: "Maribi",
-    //     Mohon: "Mohon",
-    //     Pago: "Pago",
-    //     Pasil: "Pasil",
-    //     Picas: "Picas",
-    //     Sacme: "Sacme",
-    //     "San Miguel (Poblacion)": "San Miguel (Poblacion)",
-    //     Salvador: "Salvador",
-    //     "San Isidro": "San Isidro",
-    //     "San Roque (Poblacion)": "San Roque (Poblacion)",
-    //     "San Victor": "San Victor",
-    //     "Santa Cruz": "Santa Cruz",
-    //     "Santa Elena": "Santa Elena",
-    //     "Santo Niño (Haclagan) (Poblacion)":
-    //       "Santo Niño (Haclagan) (Poblacion)",
-    //     Solano: "Solano",
-    //     Talolora: "Talolora",
-    //     Tugop: "Tugop",
-    //   },
-    // },
+
     {
       title: "Scheduled Date",
       type: "date",
@@ -125,8 +67,6 @@ const Immunizations = () => {
         `https://tanuan-backend.herokuapp.com/api/children`
       );
       setDatas(data);
-
-      console.log(data);
 
       setIsLoading(false);
     } catch (error) {
@@ -163,18 +103,26 @@ const Immunizations = () => {
         }}
         editable={{
           onRowAdd: (newData) =>
-            new Promise((resolve, reject) => {
-              axios
-                .post(
-                  `https://tanuan-backend.herokuapp.com/api/children`,
+            new Promise(async (resolve, reject) => {
+              try {
+                const { data } = await axios.post(
+                  "https://tanuan-backend.herokuapp.com/api/children",
                   newData
-                )
-                .then(({ data }) => {
-                  setTimeout(() => {
-                    setDatas([data.savedVaccine, ...datas]);
-                    resolve();
-                  }, 1000);
-                });
+                );
+                resolve();
+              } catch (error) {
+                Swal.fire("Error", `${error.response.data.msg}`, "error");
+                reject();
+              }
+
+              // axios
+              //   .post(``)
+              //   .then(({ data }) => {
+              //     fetchVaccine();
+              //   })
+              //   .catch((err) => {
+              //     resolve();
+              //   });
             }),
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
@@ -190,6 +138,10 @@ const Immunizations = () => {
                 )
                 .then(({ data }) => {
                   console.log("Vaccine Updated Successfully");
+                })
+                .catch((err) => {
+                  Swal.fire("Error", `${err.response.data.msg}`, "error");
+                  resolve();
                 });
 
               setTimeout(() => {

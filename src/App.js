@@ -32,10 +32,6 @@ import NotFound from "./components/NotFound";
 // Private Route
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
-// Auth Context
-import AuthContext from "./context/auth/authContext";
-import Dashboard from "./components/rhu/Dashboard";
-
 // Immunizations
 import ImmunizationStock from "./components/ImmunizationStock";
 import ArchivedImmunization from "./components/helper/ArchiveImmunization";
@@ -46,6 +42,10 @@ import Addimmunizer from "./components/helper/Addimmunizer";
 // Immunizer Route
 import DashboardImmunizer from "./components/immunizer/Dashboard";
 import AddChildVaccine from "./components/immunizer/AddChildVaccine";
+
+// Auth Context
+import AuthContext from "./context/auth/authContext";
+import Dashboard from "./components/rhu/Dashboard";
 
 function App() {
   const authContext = useContext(AuthContext);
