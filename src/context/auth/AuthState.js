@@ -23,6 +23,7 @@ const AuthState = (props) => {
     admin: null,
     errorLogin: null,
     isLoading: false,
+    status: null,
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -39,6 +40,29 @@ const AuthState = (props) => {
       const { data } = await axios.get(
         "https://tanuan-backend.herokuapp.com/api/rhu/is-authenticated-rhu"
       );
+
+      dispatch({
+        type: LOAD_RHU_SUCCESS,
+        payload: data,
+      });
+    } catch (err) {
+      dispatch({ type: LOAD_RHU_FAIL });
+    }
+  };
+
+  const loadImmunizer = async () => {
+    setAuthToken(localStorage.token);
+
+    try {
+      dispatch({
+        type: LOAD_RHU_REQUEST,
+      });
+
+      const { data } = await axios.get(
+        "https://tanuan-backend.herokuapp.com/api/immunizer/is-immunizer-authenticated"
+      );
+
+      console.log(data);
 
       dispatch({
         type: LOAD_RHU_SUCCESS,
@@ -79,6 +103,36 @@ const AuthState = (props) => {
     }
   };
 
+  const loginImmunizer = async (loginData) => {
+    try {
+      dispatch({
+        type: LOGIN_REQUEST,
+      });
+
+      const { data } = await axios.post(
+        "https://tanuan-backend.herokuapp.com/api/immunizer/login-immunizer",
+        {
+          email: loginData.email,
+          password: loginData.password,
+        }
+      );
+
+      console.log(data);
+
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: data,
+      });
+
+      loadImmunizer();
+    } catch (error) {
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: error.response.data.msg,
+      });
+    }
+  };
+
   // Logout
   const logout = () => dispatch({ type: LOG_OUT });
 
@@ -89,7 +143,10 @@ const AuthState = (props) => {
         isAuthenticatedLogin: state.isAuthenticatedLogin,
         isLoading: state.isLoading,
         admin: state.admin,
+        status: state.status,
         errorLogin: state.errorLogin,
+        loginImmunizer,
+        loadImmunizer,
         loadAdmin,
         login,
         logout,

@@ -20,8 +20,11 @@ export default (state, action) => {
       };
     case LOGIN_SUCCESS:
       localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("status", action.payload.status);
+
       return {
         ...state,
+        status: action.payload.status,
         isLoading: false,
         admin: action.payload.admin,
         isAuthenticatedLogin: true,
@@ -54,9 +57,12 @@ export default (state, action) => {
         isLoading: false,
         admin: action.payload,
         errorLogin: null,
+        status: action.payload.status,
       };
     case LOG_OUT:
       localStorage.removeItem("token");
+      localStorage.removeItem("status");
+
       return {
         token: null,
         isAuthenticatedLogin: false,

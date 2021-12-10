@@ -172,7 +172,7 @@ const Addimmunizer = () => {
       return Swal.fire("Error", "Please enter contact", "error");
     }
 
-    if (password.length <= 6) {
+    if (password.length <= 5) {
       return Swal.fire(
         "Error",
         "Password length must be greater than 6",
@@ -197,7 +197,7 @@ const Addimmunizer = () => {
     }
 
     if (calculateAge(new Date(selectedDate)) <= 20) {
-      return Swal.fire("Error", "You must be 21 to be a vaccinator", "error");
+      return Swal.fire("Error", "You must be 21 to be a immunizer", "error");
     }
 
     console.log(userData, selectedDate);
@@ -206,14 +206,15 @@ const Addimmunizer = () => {
     try {
       setIsLoading(true);
 
-      //   const { data } = await axios.post(
-      //     "https://tanuan-backend.herokuapp.com/api/vaccinator/create-vaccinator",
-      //     form
-      //   );
+      const { data } = await axios.post(
+        "https://tanuan-backend.herokuapp.com/api/immunizer/create-immunizer",
+        {
+          ...userData,
+          brithday: selectedDate,
+        }
+      );
 
-      // console.log(data);
-
-      Swal.fire("Success ", "New vaccinator added", "success");
+      Swal.fire("Success ", `${data.msg}`, "success");
 
       //   history.push("/dasboard");
 

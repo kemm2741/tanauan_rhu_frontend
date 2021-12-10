@@ -114,7 +114,8 @@ export default function Login(props) {
   const history = useHistory();
 
   const authContext = useContext(AuthContext);
-  const { isAuthenticatedLogin, isLoading, errorLogin, login } = authContext;
+  const { isAuthenticatedLogin, isLoading, errorLogin, login, loginImmunizer } =
+    authContext;
 
   const initialState = {
     email: "",
@@ -151,11 +152,16 @@ export default function Login(props) {
       return Swal.fire("Error Login", "Password must not be empty", "error");
     }
 
-    // if (loginData.loginAs === "") {
-    //   return Swal.fire("Error Login", "Login as in must be set", "error");
-    // }
+    if (loginData.loginAs === "") {
+      return Swal.fire("Error Login", "Login as in must be set", "error");
+    }
 
-    // No Error Input Login
+    // Login Immunizer
+    if (loginData.loginAs === "immunizer") {
+      return loginImmunizer(loginData);
+    }
+
+    // Login AS RHU Admin
     login(loginData);
 
     // Reset Input
@@ -265,8 +271,8 @@ export default function Login(props) {
                   fullWidth
                   select
                 >
-                  <MenuItem value="Male"> RHU </MenuItem>
-                  <MenuItem value="Female"> Vaccinator</MenuItem>
+                  <MenuItem value="rhu"> RHU </MenuItem>
+                  <MenuItem value="immunizer"> Immunizer </MenuItem>
                 </TextField>
 
                 <Button

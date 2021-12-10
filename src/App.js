@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Layout
 import Layout from "../src/components/Layout";
+import ImmunizerLayout from "../src/components/ImmunizerLayout";
 
 // Components
 import Login from "./components/Login";
@@ -42,18 +43,46 @@ import Immunizer from "./components/rhu/Immunizer";
 
 import Addimmunizer from "./components/helper/Addimmunizer";
 
+// Immunizer Route
+import DashboardImmunizer from "./components/immunizer/Dashboard";
+
 function App() {
   const authContext = useContext(AuthContext);
-  const { isAuthenticatedLogin, isLoading, loadAdmin, token } = authContext;
+  const {
+    isAuthenticatedLogin,
+    isLoading,
+    token,
+    admin,
+    loadAdmin,
+    loadImmunizer,
+    logout,
+  } = authContext;
 
   useEffect(() => {
-    loadAdmin();
+    if (token) {
+      if (typeof localStorage.getItem("status") === "undefined") {
+        logout();
+      } else {
+        const value = localStorage.getItem("status");
+        if (value === "rhu") {
+          return loadAdmin();
+        }
+        if (value === "immunizer") {
+          return loadImmunizer();
+        }
+
+        return logout();
+      }
+    }
   }, []);
 
   return (
     <>
       <Router>
-        {isAuthenticatedLogin && !isLoading && token ? (
+        {isAuthenticatedLogin &&
+        admin?.status === "rhu" &&
+        !isLoading &&
+        token ? (
           <Layout>
             <Switch>
               <PrivateRoute path="/dashboard">
@@ -103,6 +132,19 @@ function App() {
               </PrivateRoute>
             </Switch>
           </Layout>
+        ) : null}
+
+        {admin?.status === "immunizer" &&
+        isAuthenticatedLogin &&
+        !isLoading &&
+        token ? (
+          <ImmunizerLayout>
+            <Switch>
+              <PrivateRoute path="/dashboard">
+                <DashboardImmunizer />
+              </PrivateRoute>
+            </Switch>
+          </ImmunizerLayout>
         ) : null}
 
         {/* {!isAuthenticatedLogin && ( */}
