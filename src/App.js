@@ -45,6 +45,7 @@ import Addimmunizer from "./components/helper/Addimmunizer";
 
 // Immunizer Route
 import DashboardImmunizer from "./components/immunizer/Dashboard";
+import AddChildVaccine from "./components/immunizer/AddChildVaccine";
 
 function App() {
   const authContext = useContext(AuthContext);
@@ -142,6 +143,10 @@ function App() {
             <Switch>
               <PrivateRoute path="/dashboard">
                 <DashboardImmunizer />
+              </PrivateRoute>
+
+              <PrivateRoute path="/vaccine-children">
+                <AddChildVaccine />
               </PrivateRoute>
             </Switch>
           </ImmunizerLayout>
