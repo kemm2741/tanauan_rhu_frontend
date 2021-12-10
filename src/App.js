@@ -4,7 +4,12 @@ import "./App.css";
 import React, { useEffect, useContext } from "react";
 
 // React Router
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 
 // Layout
 import Layout from "../src/components/Layout";
@@ -166,6 +171,8 @@ function App() {
               <NotFound />
             </Route>
           ) : null}
+
+          <Redirect to="/homepage" />
         </Switch>
         {/* )} */}
       </Router>
