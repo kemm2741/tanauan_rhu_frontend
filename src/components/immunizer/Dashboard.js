@@ -1,16 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-
 // Material UI
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -32,6 +21,17 @@ import { BsFillHouseFill } from "react-icons/bs";
 import { FaUserNurse } from "react-icons/fa";
 import { AiOutlineStock } from "react-icons/ai";
 
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(4),
@@ -47,10 +47,16 @@ const useStyles = makeStyles((theme) => ({
   dataNumber: {
     fontSize: "20px",
   },
+  chartContainer: {
+    width: "100%",
+    height: "500px",
+  },
 }));
 
 const Dashboard = () => {
-  const data = [
+  const classes = useStyles();
+
+  const chartData = [
     {
       name: "Page A",
       uv: 4000,
@@ -95,7 +101,6 @@ const Dashboard = () => {
     },
   ];
 
-  const classes = useStyles();
   const [immunizationData, setImmunizationData] = useState({
     isLoading: false,
     immunizationArray: [],
@@ -289,32 +294,34 @@ const Dashboard = () => {
 
   return (
     <Container maxWidth="xl">
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart
-          width={500}
-          height={300}
-          data={data}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="pv"
-            stroke="#8884d8"
-            activeDot={{ r: 8 }}
-          />
-          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-        </LineChart>
-      </ResponsiveContainer>
+      <div className={classes.chartContainer}>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            width={500}
+            height={300}
+            data={chartData}
+            margin={{
+              top: 5,
+              right: 10,
+              left: 10,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="pv"
+              stroke="#8884d8"
+              activeDot={{ r: 8 }}
+            />
+            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
 
       <Grid container spacing={4}>
         <Grid xs={12} md={6} lg={6} item align="center">
@@ -322,7 +329,7 @@ const Dashboard = () => {
             <Grid container>
               <Grid lg={6} item>
                 <Typography className={classes.title} variant="h5">
-                  Daily Vaccine
+                  Immunizations Schedule
                 </Typography>
                 {immunizationData.isLoading ? (
                   <CircularProgress />

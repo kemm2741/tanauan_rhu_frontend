@@ -42,6 +42,7 @@ import { BsFillHouseFill } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { AiOutlineStock } from "react-icons/ai";
+import { VscReport } from "react-icons/vsc";
 
 // Auth Context
 import AuthContext from "../context/auth/authContext";
@@ -122,25 +123,10 @@ function ImmunizerLayout({ children }) {
       icon: <MdDashboard size={25} />,
     },
     {
-      name: "Vaccinator",
-      link: "/vaccinator",
-      icon: <FaUsers size={25} />,
+      name: "Report",
+      link: "/report",
+      icon: <VscReport size={25} />,
     },
-    // {
-    //   name: "Vaccine",
-    //   link: "/vaccine",
-    //   icon: <GiLoveInjection size={25} />,
-    // },
-    // {
-    //   name: "Barangay",
-    //   link: "/barangay",
-    //   icon: <BsFillHouseFill size={25} />,
-    // },
-    // {
-    //   name: "Schedule",
-    //   link: "/schedule",
-    //   icon: <AiOutlineSchedule size={25} />,
-    // },
   ];
 
   const drawer = (

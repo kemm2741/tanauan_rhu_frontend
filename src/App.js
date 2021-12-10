@@ -171,8 +171,6 @@ function App() {
               <NotFound />
             </Route>
           ) : null}
-
-          <Redirect to="/homepage" />
         </Switch>
         {/* )} */}
       </Router>
