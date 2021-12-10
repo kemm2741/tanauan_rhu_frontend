@@ -1,7 +1,7 @@
 import "./App.css";
 
 // React States
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 
 // React Router
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
