@@ -186,6 +186,20 @@ function ImmunizerLayout({ children }) {
           </List>
         </Collapse>
 
+        <List component="div" disablePadding>
+          <ListItem
+            onClick={() => {
+              history.push("/vaccine-children");
+            }}
+            button
+          >
+            <ListItemIcon>
+              <GiLoveInjection size={25} />
+            </ListItemIcon>
+            <ListItemText primary="Vaccine Children" />
+          </ListItem>
+        </List>
+
         <ListItem
           onClick={() => {
             logout();

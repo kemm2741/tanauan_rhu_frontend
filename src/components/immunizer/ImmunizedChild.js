@@ -21,7 +21,7 @@ const ImmunizationHelper = ({ rowData }) => {
   return (
     <div style={{ padding: "50px 40px", backgroundColor: "#ebe9e9" }}>
       <MaterialTable
-        title={`Immunized Children with ${admin.user?.firstname} `}
+        title={`Immunized Children by ${admin.user?.firstname} `}
         columns={[
           {
             title: "First Name",
