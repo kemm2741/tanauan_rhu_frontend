@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 
+// Material Ui
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -23,7 +24,7 @@ import Alert from "@material-ui/lab/Alert";
 import { useHistory } from "react-router-dom";
 
 // Auth Context
-import AuthContext from "../context/auth/authContext";
+import AuthContext from "../../context/auth/authContext";
 
 // Footer
 import Footer from "./Footer";
@@ -158,7 +159,8 @@ export default function Login(props) {
 
     // Login Immunizer
     if (loginData.loginAs === "immunizer") {
-      return loginImmunizer(loginData);
+      loginImmunizer(loginData);
+      return setLoginData(initialState);
     }
 
     // Login AS RHU Admin

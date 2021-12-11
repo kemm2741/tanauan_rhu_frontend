@@ -4,20 +4,16 @@ import "./App.css";
 import React, { useEffect, useContext } from "react";
 
 // React Router
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Layout
-import Layout from "../src/components/Layout";
-import ImmunizerLayout from "../src/components/ImmunizerLayout";
+import RhuLayout from "./components/Layout/RhuLayout";
+import ImmunizerLayout from "./components/Layout/ImmunizerLayout";
 
-// Components
-import Login from "./components/Login";
-import HomePage from "./components/HomePage";
+// Home Compoenents
+import Login from "./components/HomeComponent/Login";
+import HomePage from "./components/HomeComponent/HomePage";
+import NotFound from "./components/HomeComponent/NotFound";
 
 // RHU Components
 import Barangay from "./components/rhu/Barangay";
@@ -26,31 +22,30 @@ import Vaccine from "./components/rhu/Vaccine";
 import Immunization from "./components/rhu/Immunization";
 import Schedule from "./components/rhu/Schedule";
 import Profile from "./components/rhu/Profile";
+import Dashboard from "./components/rhu/Dashboard";
+import ArchieveImmunization from "./components/rhu/ArchieveImmunization";
 
 // Add Helper Component
 import AddVacinator from "./components/helper/AddVacinator";
 import EditVacinator from "./components/helper/EditVacinator";
 
-// Page 404 Error
-import NotFound from "./components/NotFound";
-
-// Private Route
-import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
-
 // Immunizations
-import ImmunizationStock from "./components/ImmunizationStock";
+import ImmunizationStock from "./components/rhu/ImmunizationStock";
 import ArchivedImmunization from "./components/helper/ArchiveImmunization";
 import Immunizer from "./components/rhu/Immunizer";
-
 import Addimmunizer from "./components/helper/Addimmunizer";
 
-// Immunizer Route
+// Immunizer Route ---------------------------------------------
 import DashboardImmunizer from "./components/immunizer/Dashboard";
 import AddChildVaccine from "./components/immunizer/AddChildVaccine";
+import ImmunizerImmunizations from "./components/immunizer/Immunization";
+import ImmunizerImmunizationStock from "./components/immunizer/ImmunizationStock";
 
 // Auth Context
 import AuthContext from "./context/auth/authContext";
-import Dashboard from "./components/rhu/Dashboard";
+
+// Private Route
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 function App() {
   const authContext = useContext(AuthContext);
@@ -89,7 +84,7 @@ function App() {
         admin?.status === "rhu" &&
         !isLoading &&
         token ? (
-          <Layout>
+          <RhuLayout>
             <Switch>
               <PrivateRoute path="/dashboard">
                 <Dashboard />
@@ -110,8 +105,11 @@ function App() {
               <PrivateRoute path="/immunization-stock">
                 <ImmunizationStock />
               </PrivateRoute>
-              <PrivateRoute path="/archieve-immunization">
+              <PrivateRoute path="/archieve-immunization-stock">
                 <ArchivedImmunization />
+              </PrivateRoute>
+              <PrivateRoute path="/archieve-immunization">
+                <ArchieveImmunization />
               </PrivateRoute>
               {/* End of Immunizations */}
               <PrivateRoute path="/schedule">
@@ -137,11 +135,11 @@ function App() {
                 <EditVacinator />
               </PrivateRoute>
             </Switch>
-          </Layout>
+          </RhuLayout>
         ) : null}
 
-        {admin?.status === "immunizer" &&
-        isAuthenticatedLogin &&
+        {isAuthenticatedLogin &&
+        admin?.status === "immunizer" &&
         !isLoading &&
         token ? (
           <ImmunizerLayout>
@@ -152,6 +150,14 @@ function App() {
 
               <PrivateRoute path="/vaccine-children">
                 <AddChildVaccine />
+              </PrivateRoute>
+
+              <PrivateRoute path="/immunization-stock">
+                <ImmunizerImmunizationStock />
+              </PrivateRoute>
+
+              <PrivateRoute path="/immunization">
+                <ImmunizerImmunizations />
               </PrivateRoute>
             </Switch>
           </ImmunizerLayout>

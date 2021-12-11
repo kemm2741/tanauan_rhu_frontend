@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 
-import Swal from "sweetalert2";
-
+// React Router Dom
 import { useHistory } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
@@ -9,7 +8,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
-import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 
 // React icons
@@ -18,12 +16,11 @@ import { AiOutlineMail } from "react-icons/ai";
 import { AiFillFacebook } from "react-icons/ai";
 import { GiHealthNormal } from "react-icons/gi";
 
-//
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 
-// Footer
+// Footer Component
 import Footer from "./Footer";
 
 //
@@ -31,7 +28,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 
 // Auth Context
-import AuthContext from "../context/auth/authContext";
+import AuthContext from "../../context/auth/authContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {

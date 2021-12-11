@@ -216,10 +216,9 @@ const Immunizer = () => {
       form.append("birthday", selectedDate);
 
       // console.log(data);
-
       Swal.fire("Success ", "New immunizer added", "success");
 
-      //   history.push("/dashboard");
+      // history.push("/immunizer");
 
       setIsLoading(false);
     } catch (error) {

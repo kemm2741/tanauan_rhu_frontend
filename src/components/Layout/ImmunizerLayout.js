@@ -45,7 +45,7 @@ import { AiOutlineStock } from "react-icons/ai";
 import { VscReport } from "react-icons/vsc";
 
 // Auth Context
-import AuthContext from "../context/auth/authContext";
+import AuthContext from "../../context/auth/authContext";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
-    padding: "0 5px",
+    padding: "20px 5px",
   },
   nested: {
     paddingLeft: theme.spacing(4),
@@ -122,20 +122,13 @@ function ImmunizerLayout({ children }) {
       link: "/dashboard",
       icon: <MdDashboard size={25} />,
     },
-    {
-      name: "Report",
-      link: "/report",
-      icon: <VscReport size={25} />,
-    },
   ];
 
   const drawer = (
     <div>
       <div className={classes.toolbar}>
         <div className={classes.titleContainer}>
-          <Typography variant="h6">
-            Immunizer Dashboard <br /> Vaccination & Immunization System
-          </Typography>
+          <Typography variant="h6">Immunizer Dashboard</Typography>
         </div>
       </div>
       <Divider />
@@ -174,22 +167,6 @@ function ImmunizerLayout({ children }) {
                 <AiOutlineStock size={25} />
               </ListItemIcon>
               <ListItemText primary="Immunization Stock" />
-            </ListItem>
-          </List>
-
-          <List component="div" disablePadding>
-            <ListItem
-              onClick={() => {
-                history.push("/archieve-immunization");
-              }}
-              butt
-              button
-              className={classes.nested}
-            >
-              <ListItemIcon>
-                <AiOutlineStock size={25} />
-              </ListItemIcon>
-              <ListItemText primary="Archieved Immunizations" />
             </ListItem>
           </List>
 

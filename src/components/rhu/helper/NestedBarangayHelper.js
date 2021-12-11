@@ -15,6 +15,18 @@ const NestedBarangayHelper = ({ vaccineDetails }) => {
 
   const [data, setDatas] = useState(vaccineDetails);
 
+  // const [allData, setAllData] = useState([
+  //   {
+  //     vaccinatorName: toCapitalized(
+  //       `${vaccinator.firstname}  ${vaccinator.middlename} ${vaccinator.lastname}`
+  //     ),
+  //     vaccinatorImage: vaccinator.profile.url,
+  //     vaccineName: vaccine.vaccineName,
+  //     dose,
+  //     date,
+  //   },
+  // ]);
+
   return (
     <div style={{ padding: "50px 40px", backgroundColor: "#ebe9e9" }}>
       <MaterialTable

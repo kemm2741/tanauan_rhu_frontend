@@ -15,12 +15,10 @@ const ArchievedImmunization = () => {
     try {
       setIsLoading(true);
       const { data } = await axios.get(
-        " https://tanuan-backend.herokuapp.com/api/children/get-archived-immunization-stock"
+        " https://tanuan-backend.herokuapp.com/api/children/get-archived-children-vaccine"
       );
 
-      console.log(data);
-
-      setData(data.immunizationStock);
+      setData(data);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -46,25 +44,25 @@ const ArchievedImmunization = () => {
         isLoading={isLoading}
         columns={[
           {
-            title: "Immunization Name",
-            field: "immunization.vaccineName",
+            title: "Vaccine Name",
+            field: "vaccineName",
           },
           {
-            title: "Stock",
-            field: "stock",
+            title: "Vaccine Use",
+            field: "vaccineUse",
           },
           {
-            title: "Description",
-            field: "description",
+            title: "Immunization Label",
+            field: "immunizationLabel",
           },
-          {
-            date: "Date",
-            field: "date",
-            type: "date",
-            dateSetting: {
-              format: "dd/MM/yyyy",
-            },
-          },
+          // {
+          //   date: "Date",
+          //   field: "date",
+          //   type: "date",
+          //   dateSetting: {
+          //     format: "dd/MM/yyyy",
+          //   },
+          // },
         ]}
       />
     </div>

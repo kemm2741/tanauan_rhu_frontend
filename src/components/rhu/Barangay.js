@@ -23,7 +23,7 @@ import {
 } from "recharts";
 
 // Helper Component
-import BarangayHelper from "../helper/BarangayHelper";
+import BarangayHelper from "../rhu/helper/BarangayHelper";
 
 const useStyles = makeStyles((theme) => ({
   lineChart: {

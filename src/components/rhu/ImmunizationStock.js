@@ -328,8 +328,8 @@ const ImmunizationStock = () => {
       </Modal>
 
       {/* End of Modal */}
-
       <MaterialTable
+        isLoading={isLoading}
         title={`Immunization Stock`}
         columns={[
           {
@@ -339,7 +339,6 @@ const ImmunizationStock = () => {
           {
             title: "Immunization",
             field: "immunization.vaccineName",
-            // lookup: immunizationMenu,
           },
           {
             title: "Description",
@@ -369,7 +368,6 @@ const ImmunizationStock = () => {
             onClick: async (event, rowData) => {
               setEditId(rowData._id);
               setEditImmunization(true);
-
               setImmunizationStock({
                 immunization_id: rowData.immunization._id,
                 stock: rowData.stock,

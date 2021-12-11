@@ -1,10 +1,5 @@
 import React, { useState } from "react";
 
-// ! Base URL
-import { baseURL } from "../../utils/baseURL";
-
-import axios from "axios";
-
 // Material Table
 import MaterialTable from "material-table";
 

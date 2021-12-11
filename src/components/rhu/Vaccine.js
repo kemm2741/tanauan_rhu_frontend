@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import Swal from "sweetalert2";
 
-// ! Import Base URL
-// import { baseURL } from "../utils/baseURL";
-
 // Import axios
 import axios from "axios";
 
@@ -49,7 +46,7 @@ import {
 import MaterialTable from "material-table";
 
 // Vaccine Helper Component
-import VaccineHelper from "../helper/VaccineHelper";
+import VaccineHelper from "../rhu/helper/VaccineHelper";
 
 const useStyles = makeStyles((theme) => ({
   paperGrid: {
@@ -110,7 +107,6 @@ const Vaccine = () => {
     MonthPriorForBoosterShot: 0,
   };
 
-  //
   const [vaccineData, setVaccineData] = useState(initialState);
 
   // Chart Data

@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 
-// Sweet Alert
-import Swal from "sweetalert2";
-
 // Material Table
 import MaterialTable from "material-table";
 
 // Nested Helper
-import NestedBarangayHelper from "../rhu/helper/NestedBarangayHelper";
+import NestedBarangayHelper from "./NestedBarangayHelper";
 
 const BarangayHelper = ({ usersArray }) => {
   const [users, setUsers] = useState(usersArray.users);

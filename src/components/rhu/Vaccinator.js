@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-//
 import { useHistory, useParams } from "react-router-dom";
 
 import html2canvas from "html2canvas";
-
-// ! Base URL
-import { baseURL } from "../../utils/baseURL";
 
 // Material Table
 import MaterialTable from "material-table";
@@ -177,10 +173,6 @@ const Vaccinator = () => {
       const { data } = await axios.get(
         "https://tanuan-backend.herokuapp.com/api/vaccinator/get-all-vaccinator"
       );
-      // console.log(data.vaccinator);
-      // setData(data.vaccinator);
-
-      console.log(data.vaccinator);
 
       const withAge = data.vaccinator.map((data) => {
         return {
@@ -190,19 +182,6 @@ const Vaccinator = () => {
       });
 
       setData(withAge);
-
-      // for (let human of data.vaccinator) {
-      //   console.log(calculateAge(human.birthday));
-      // }
-
-      // const withAge = data.vaccinator.map((data) => {
-      //   return {
-      //     ...data,
-      //     age: calculateAge(data.vaccinator.birthday),
-      //   };
-      // });
-
-      // console.log(withAge);
 
       setIsLoading(false);
     } catch (error) {

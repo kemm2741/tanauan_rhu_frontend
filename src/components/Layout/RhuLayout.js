@@ -44,7 +44,7 @@ import { MdDashboard } from "react-icons/md";
 import { AiOutlineStock } from "react-icons/ai";
 
 // Auth Context
-import AuthContext from "../context/auth/authContext";
+import AuthContext from "../../context/auth/authContext";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -194,7 +194,7 @@ function Layout({ children }) {
           <List component="div" disablePadding>
             <ListItem
               onClick={() => {
-                history.push("/archieve-immunization");
+                history.push("/archieve-immunization-stock");
               }}
               butt
               button
@@ -202,6 +202,38 @@ function Layout({ children }) {
             >
               <ListItemIcon>
                 <AiOutlineStock size={25} />
+              </ListItemIcon>
+              <ListItemText primary="Archieved Immunizations Stock" />
+            </ListItem>
+          </List>
+
+          <List component="div" disablePadding>
+            <ListItem
+              onClick={() => {
+                history.push("/add-immunizer");
+              }}
+              butt
+              button
+              className={classes.nested}
+            >
+              <ListItemIcon>
+                <AiOutlineStock size={25} />
+              </ListItemIcon>
+              <ListItemText primary="Add Immunizer" />
+            </ListItem>
+          </List>
+
+          <List component="div" disablePadding>
+            <ListItem
+              onClick={() => {
+                history.push("/archieve-immunization");
+              }}
+              butt
+              button
+              className={classes.nested}
+            >
+              <ListItemIcon>
+                <GiLoveInjection size={25} />
               </ListItemIcon>
               <ListItemText primary="Archieved Immunizations" />
             </ListItem>

@@ -15,7 +15,7 @@ import axios from "axios";
 import MaterialTable from "material-table";
 
 // Vaccine Helper Component
-import ImmunizationHelper from "../helper/ImmunizationHelper";
+import ImmunizationHelper from "./helper/ImmunizationHelper";
 
 const Immunizations = () => {
   // States
@@ -109,20 +109,12 @@ const Immunizations = () => {
                   "https://tanuan-backend.herokuapp.com/api/children",
                   newData
                 );
+                fetchVaccine();
                 resolve();
               } catch (error) {
                 Swal.fire("Error", `${error.response.data.msg}`, "error");
                 reject();
               }
-
-              // axios
-              //   .post(``)
-              //   .then(({ data }) => {
-              //     fetchVaccine();
-              //   })
-              //   .catch((err) => {
-              //     resolve();
-              //   });
             }),
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
@@ -143,15 +135,6 @@ const Immunizations = () => {
                   Swal.fire("Error", `${err.response.data.msg}`, "error");
                   resolve();
                 });
-
-              setTimeout(() => {
-                const dataUpdate = [...datas];
-                const index = oldData.tableData.id;
-                dataUpdate[index] = newData;
-                setDatas([...dataUpdate]);
-
-                resolve();
-              }, 1000);
             }),
           onRowDelete: (oldData) =>
             new Promise((resolve, reject) => {
