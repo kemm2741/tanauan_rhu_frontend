@@ -10,8 +10,6 @@ const PrivateRoute = ({ children, ...rest }) => {
 
   console.log(isAuthenticatedLogin);
 
-  // history.push("/")
-  // <Redirect to="/" />
   return (
     <Route
       {...rest}
