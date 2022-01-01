@@ -162,18 +162,18 @@ const ImmunizationStock = () => {
       );
 
       if (res.status === 200) {
-        return console.log(res);
+        console.log(res);
+        fetchImmunizationStock();
+        handleCloseModal();
+        return;
       } else {
         Swal.fire("Warning", `${res.data.msg}`, "warning");
+        handleCloseModal();
       }
-
-      fetchImmunizationStock();
     } catch (error) {
+      handleCloseModal();
       console.log(error);
     }
-
-    // Reset State
-    handleCloseModal();
   };
 
   const updateImmnunizationStock = async (e) => {
@@ -206,10 +206,12 @@ const ImmunizationStock = () => {
         }
       );
 
-      console.log(data);
+      Swal.fire("Success", "Immunization stock updated!", "success");
       fetchImmunizationStock();
+      handleCloseModal();
     } catch (error) {
-      console.log(error);
+      Swal.fire("Success", `${error.response.data.msg}`, "success");
+      handleCloseModal();
     }
 
     // Reset State

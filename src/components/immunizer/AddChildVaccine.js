@@ -216,40 +216,47 @@ const AddVaccineChild = () => {
     }
 
     // Success No Error
-    try {
-      setIsLoading(true);
 
-      console.log(userData);
+    Swal.fire({
+      title: "Please review before sending",
+      text: "You won't be able to edit this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Create",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          setIsLoading(true);
 
-      const { status, data } = await axios.put(
-        `https://tanuan-backend.herokuapp.com/api/children/addVaccinatedChild/${userData.immunizationType}`,
-        {
-          firstName,
-          middleName,
-          lastName,
-          gender,
-          age,
-          birthday: selectedDate,
-          brgy,
+          const { status, data } = await axios.put(
+            `https://tanuan-backend.herokuapp.com/api/children/addVaccinatedChild/${userData.immunizationType}`,
+            {
+              firstName,
+              middleName,
+              lastName,
+              gender,
+              age,
+              birthday: selectedDate,
+              brgy,
+            }
+          );
+
+          if (status === 200) {
+            setIsLoading(false);
+            history.push("/immunization");
+            setIsLoading(false);
+            Swal.fire("Success ", `${data.msg}`, "success");
+            return setUserData(initalState);
+          }
+        } catch (error) {
+          setIsLoading(false);
+          Swal.fire("Warning", `${error.response.data.msg}`, "warning");
+          setUserData(initalState);
         }
-      );
-
-      if (status === 200) {
-        setIsLoading(false);
-        return Swal.fire("Success ", `${data.msg}`, "success");
       }
-
-      return Swal.fire("Warning", `${data.msg}`, "warning");
-
-      //   history.push("/dashboard");
-
-      setIsLoading(false);
-    } catch (error) {
-      Swal.fire("Warning", `${error.response.data.msg}`, "warning");
-      setIsLoading(false);
-    }
-
-    setUserData(initalState);
+    });
   };
 
   useEffect(() => {
@@ -349,24 +356,6 @@ const AddVaccineChild = () => {
                   </TextField>
                 </Grid>
 
-                {/* <Grid xs={12} sm={12} item>
-                  <TextField
-                    onChange={handleOnChange}
-                    name="brgy"
-                    value={userData.brgy}
-                    label="Barangays"
-                    variant="outlined"
-                    fullWidth
-                    select
-                  >
-                    {barangays.map(({ barangay }) => (
-                      <MenuItem value={barangay._id}>
-                        {barangay.barangayName}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid> */}
-
                 <Grid xs={12} sm={12} item>
                   <Select
                     menuPortalTarget={document.body}
@@ -434,7 +423,6 @@ const AddVaccineChild = () => {
                   <Button
                     className={classes.formButton}
                     onClick={handleSubmit}
-                    // onClick={handleOpen}
                     type="submit"
                     variant="contained"
                     color="primary"
