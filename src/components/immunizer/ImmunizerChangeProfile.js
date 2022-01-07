@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Profile = () => {
+const ImmunizerChangeProfile = () => {
   const history = useHistory();
   const classes = useStyles();
   // initiate Context
@@ -104,7 +104,7 @@ const Profile = () => {
   const [adminError, setAdminError] = useState("");
 
   const [adminData, setAdminData] = useState({
-    rhuId: admin?.user?._id,
+    _id: admin?.user?._id,
     email: admin?.user?.email,
     contact: admin?.user?.contact,
     address: admin?.user?.address,
@@ -136,12 +136,15 @@ const Profile = () => {
     }
     try {
       setIsLoading(true);
-      const { data } = await axios.post(`${baseURL}rhu/update-profile`, {
-        email,
-        contact,
-        address,
-        rhuId: admin.user._id,
-      });
+      const { data } = await axios.post(
+        `${baseURL}immunizer/update-immunizer-profile`,
+        {
+          email,
+          contact,
+          address,
+          _id: admin.user._id,
+        }
+      );
 
       Swal.fire("Success", `Account has been updated!`, "success");
       fetchProfileInfo();
@@ -157,13 +160,15 @@ const Profile = () => {
     try {
       setIsLoading(true);
       const { data } = await axios.post(
-        `${baseURL}rhu/fetching-rhu-information`,
-        { rhuId: admin.user._id }
+        `${baseURL}immunizer/immunizer-profile-information`,
+        { _id: admin.user._id }
       );
+
+      console.log(data);
 
       setAdminData({
         ...adminData,
-        rhuId: data._id,
+        _id: data._id,
         email: data.email,
         contact: data.contact,
         address: data.address,
@@ -212,19 +217,6 @@ const Profile = () => {
               )}
 
               <form noValidate autoComplete="off">
-                <Grid
-                  justify="center"
-                  alignItems="center"
-                  className={classes.profileImageContainer}
-                  xs={5}
-                  item
-                >
-                  <img
-                    className={classes.profileImage}
-                    src={admin?.user?.profile?.url}
-                    alt="profile-pic"
-                  />
-                </Grid>
                 <Grid container spacing={2}>
                   <Grid xs={12} sm={12} item>
                     <TextField
@@ -280,4 +272,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ImmunizerChangeProfile;

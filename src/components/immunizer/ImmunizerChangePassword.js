@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 
 // ! Import Base URL
 import { baseURL } from "../../utils/baseURL";
@@ -76,21 +76,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     padding: "10px",
   },
-  profileImageContainer: {
-    width: "100%",
-    display: "block",
-    margin: "0 auto",
-  },
-  profileImage: {
-    width: "180px",
-    height: "180px",
-    borderRadius: "50%",
-    marginInline: "auto",
-    objectFit: "cover",
-  },
 }));
 
-const Profile = () => {
+const ImmunizerChangePassword = () => {
   const history = useHistory();
   const classes = useStyles();
   // initiate Context
@@ -104,10 +92,8 @@ const Profile = () => {
   const [adminError, setAdminError] = useState("");
 
   const [adminData, setAdminData] = useState({
-    rhuId: admin?.user?._id,
-    email: admin?.user?.email,
-    contact: admin?.user?.contact,
-    address: admin?.user?.address,
+    oldPassword: "",
+    password: "",
   });
 
   const handleOnChange = (e) => {
@@ -118,68 +104,48 @@ const Profile = () => {
     });
   };
 
-  const handleChangeProfile = async (e) => {
+  const handleChangePassword = async (e) => {
     e.preventDefault();
 
-    const { email, contact, address } = adminData;
+    const { oldPassword, password } = adminData;
 
-    if (email === "") {
-      return Swal.fire("Error", "Email must not be empty", "error");
+    if (oldPassword === "") {
+      return Swal.fire("Error", "Old password must not be empty", "error");
     }
 
-    if (contact === "") {
-      return Swal.fire("Error", "Contact must not be empty", "error");
+    if (password === "") {
+      return Swal.fire("Error", "Password must not be empty", "error");
     }
 
-    if (address === "") {
-      return Swal.fire("Error", "Address must not be empty", "error");
-    }
-    try {
-      setIsLoading(true);
-      const { data } = await axios.post(`${baseURL}rhu/update-profile`, {
-        email,
-        contact,
-        address,
-        rhuId: admin.user._id,
-      });
-
-      Swal.fire("Success", `Account has been updated!`, "success");
-      fetchProfileInfo();
-      setIsLoading(false);
-    } catch (error) {
-      Swal.fire("Error", `${error.response.data.msg}`, "error");
-      setIsLoading(false);
-    }
-  };
-
-  // Fetch Profile Information
-  const fetchProfileInfo = async () => {
     try {
       setIsLoading(true);
       const { data } = await axios.post(
-        `${baseURL}rhu/fetching-rhu-information`,
-        { rhuId: admin.user._id }
+        `${baseURL}immunizer/change-password-immunizer`,
+        {
+          _id: admin.user._id,
+          oldpassword: oldPassword,
+          newpassword: password,
+        }
       );
 
       setAdminData({
         ...adminData,
-        rhuId: data._id,
-        email: data.email,
-        contact: data.contact,
-        address: data.address,
+        oldPassword: "",
+        password: "",
       });
 
-      console.log(data);
+      Swal.fire("Success", `New password has been set`, "success");
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      setAdminData({
+        ...adminData,
+        oldPassword: "",
+        password: "",
+      });
+      Swal.fire("Error", `${error.response.data.msg}`, "error");
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchProfileInfo();
-  }, []);
 
   return (
     <div>
@@ -198,11 +164,11 @@ const Profile = () => {
                   gutterBottom
                   variant="h4"
                 >
-                  My Profile
+                  Change password
                 </Typography>
-                <Typography align="center" paragraph color="textSecondary">
-                  Update profile data
-                </Typography>
+                {/* <Typography align="center" paragraph color="textSecondary">
+            
+                </Typography> */}
               </CardContent>
 
               {adminError && (
@@ -212,48 +178,27 @@ const Profile = () => {
               )}
 
               <form noValidate autoComplete="off">
-                <Grid
-                  justify="center"
-                  alignItems="center"
-                  className={classes.profileImageContainer}
-                  xs={5}
-                  item
-                >
-                  <img
-                    className={classes.profileImage}
-                    src={admin?.user?.profile?.url}
-                    alt="profile-pic"
-                  />
-                </Grid>
                 <Grid container spacing={2}>
                   <Grid xs={12} sm={12} item>
                     <TextField
-                      value={adminData.email}
+                      value={adminData.oldPassword}
                       onChange={handleOnChange}
-                      name="email"
-                      label="Enter email address"
+                      name="oldPassword"
+                      label="Enter old Password"
                       variant="outlined"
-                      type="email"
+                      type="password"
                       fullWidth
                     />
                   </Grid>
+
                   <Grid xs={12} sm={12} item>
                     <TextField
-                      value={adminData.contact}
+                      value={adminData.password}
                       onChange={handleOnChange}
-                      name="contact"
-                      label="Enter Contact Number"
+                      name="password"
+                      label="New Password"
                       variant="outlined"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid xs={12} sm={12} item>
-                    <TextField
-                      value={adminData.address}
-                      onChange={handleOnChange}
-                      name="address"
-                      label="Address"
-                      variant="outlined"
+                      type="password"
                       fullWidth
                     />
                   </Grid>
@@ -261,7 +206,7 @@ const Profile = () => {
                   <Grid xs={12} sm={12} item>
                     <Button
                       className={classes.formButton}
-                      onClick={handleChangeProfile}
+                      onClick={handleChangePassword}
                       type="submit"
                       variant="contained"
                       color="primary"
@@ -280,4 +225,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ImmunizerChangePassword;

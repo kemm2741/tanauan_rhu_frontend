@@ -181,7 +181,7 @@ function ImmunizerLayout({ children }) {
               <ListItemIcon>
                 <GiLoveInjection size={25} />
               </ListItemIcon>
-              <ListItemText primary="Immunization" />
+              <ListItemText primary="My immunized" />
             </ListItem>
           </List>
         </Collapse>
@@ -281,11 +281,20 @@ function ImmunizerLayout({ children }) {
           >
             <MenuItem
               onClick={() => {
-                history.push("/profile");
+                history.push("/profile-immunizer-details");
               }}
             >
               Profile
             </MenuItem>
+
+            <MenuItem
+              onClick={() => {
+                history.push("/profile-immunizer");
+              }}
+            >
+              Change Passowrd
+            </MenuItem>
+
             {/* <MenuItem onClick={handleClose}>My account</MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem> */}
           </Menu>

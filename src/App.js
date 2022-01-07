@@ -24,6 +24,7 @@ import Schedule from "./components/rhu/Schedule";
 import Profile from "./components/rhu/Profile";
 import Dashboard from "./components/rhu/Dashboard";
 import ArchieveImmunization from "./components/rhu/ArchieveImmunization";
+import ChangePassword from "./components/rhu/ChangePassword";
 
 // Add Helper Component
 import AddVacinator from "./components/helper/AddVacinator";
@@ -40,6 +41,8 @@ import DashboardImmunizer from "./components/immunizer/Dashboard";
 import AddChildVaccine from "./components/immunizer/AddChildVaccine";
 import ImmunizerImmunizations from "./components/immunizer/Immunization";
 import ImmunizerImmunizationStock from "./components/immunizer/ImmunizationStock";
+import ImmunizerChangePassword from "./components/immunizer/ImmunizerChangePassword";
+import ImmunizerChangeProfile from "./components/immunizer/ImmunizerChangeProfile";
 
 // Auth Context
 import AuthContext from "./context/auth/authContext";
@@ -71,7 +74,6 @@ function App() {
         if (value === "immunizer") {
           return loadImmunizer();
         }
-
         return logout();
       }
     }
@@ -118,10 +120,15 @@ function App() {
               <PrivateRoute path="/profile">
                 <Profile />
               </PrivateRoute>
+
+              <PrivateRoute exact path="/changepassword-rhu">
+                <ChangePassword />
+              </PrivateRoute>
               {/* Immunizer */}
-              <PrivateRoute path="/immunizer">
+              <PrivateRoute exact path="/immunizer">
                 <Immunizer />
               </PrivateRoute>
+
               {/*  */}
               <PrivateRoute path="/add-immunizer">
                 <Addimmunizer />
@@ -154,6 +161,15 @@ function App() {
 
               <PrivateRoute path="/immunization-stock">
                 <ImmunizerImmunizationStock />
+              </PrivateRoute>
+
+              <PrivateRoute path="/profile-immunizer">
+                <ImmunizerChangePassword />
+              </PrivateRoute>
+
+              {/*  */}
+              <PrivateRoute exact path="/profile-immunizer-details">
+                <ImmunizerChangeProfile />
               </PrivateRoute>
 
               <PrivateRoute path="/immunization">

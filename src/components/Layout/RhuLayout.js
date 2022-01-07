@@ -137,7 +137,7 @@ function Layout({ children }) {
       icon: <BsFillHouseFill size={25} />,
     },
     {
-      name: "Schedule",
+      name: "Vaccine Schedule",
       link: "/schedule",
       icon: <AiOutlineSchedule size={25} />,
     },
@@ -341,6 +341,15 @@ function Layout({ children }) {
             >
               Profile
             </MenuItem>
+
+            <MenuItem
+              onClick={() => {
+                history.push("/changepassword-rhu");
+              }}
+            >
+              Change Password
+            </MenuItem>
+
             {/* <MenuItem onClick={handleClose}>My account</MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem> */}
           </Menu>

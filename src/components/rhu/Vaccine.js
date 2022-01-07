@@ -214,32 +214,33 @@ const Vaccine = () => {
 
     if (vaccineName === "") {
       Swal.fire("Error", `Please input vaccine name`, "error");
-      return handleCloseModal();
+      return;
     }
 
     if (vaccineStock <= 0) {
       Swal.fire("Error", `Vaccine Stock must not be empty`, "error");
-      return handleCloseModal();
+      return;
     }
 
     if (maxDose <= 0) {
       Swal.fire("Error", `Max dose must be set`, "error");
-      return handleCloseModal();
+      return;
     }
 
     if (DaysPriorFor2ndDose <= 0) {
       Swal.fire("Error", `Days prior for second does must be set`, "error");
-      return handleCloseModal();
+      return;
     }
   };
 
   // Submit Data POST Request
   const handleClick = async (e) => {
     e.preventDefault();
-
+    handleCloseModal();
     errorChecker();
 
     try {
+      setIsLoading(true);
       const { data } = await axios.post(
         "https://tanuan-backend.herokuapp.com/api/vaccine",
         vaccineData
@@ -247,8 +248,10 @@ const Vaccine = () => {
       setDatas([data.savedVaccine, ...datas]);
 
       Swal.fire("Success", `Vaccine Added`, "success");
+      setIsLoading(false);
     } catch (error) {
       Swal.fire("Error", `${error.response.data.msg}`, "error");
+      setIsLoading(false);
     }
 
     handleCloseModal();

@@ -161,29 +161,26 @@ const HomePage = (props) => {
 
       <div className="carousel-container">
         <Carousel className="main-slide">
-          <div>
-            <img
-              height="300px"
-              width="200px"
-              src="https://doh.gov.ph/sites/default/files/WEBSITE%20BANNER%20-%20RESBAKUNA.png"
-            />
-          </div>
+          <img
+            className="carousel-img"
+            height="300px"
+            width="200px"
+            src="https://doh.gov.ph/sites/default/files/WEBSITE%20BANNER%20-%20RESBAKUNA.png"
+          />
 
-          <div>
-            <img
-              height="300px"
-              width="200px"
-              src="https://www.unodc.org/res/covid-19_html/COVID-19-banner_1303x323px.png"
-            />
-          </div>
+          <img
+            className="carousel-img"
+            height="300px"
+            width="200px"
+            src="https://www.unodc.org/res/covid-19_html/COVID-19-banner_1303x323px.png"
+          />
 
-          <div>
-            <img
-              height="300px"
-              width="200px"
-              src="https://neda.gov.ph/wp-content/uploads/2021/05/BiDA-Solusyon-Eko-Miya-1920-x-600.jpg"
-            />
-          </div>
+          <img
+            className="carousel-img"
+            height="300px"
+            width="200px"
+            src="https://neda.gov.ph/wp-content/uploads/2021/05/BiDA-Solusyon-Eko-Miya-1920-x-600.jpg"
+          />
         </Carousel>
       </div>
 
