@@ -94,6 +94,9 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     paddingBottom: "13px",
   },
+  errorAlert: {
+    marginBottom: "15px",
+  },
 }));
 
 function ElevationScroll(props) {
@@ -269,7 +272,6 @@ export default function Login(props) {
                   name="loginAs"
                   value={loginData.loginAS}
                   label="Login As"
-                  variant="outlined"
                   fullWidth
                   select
                 >

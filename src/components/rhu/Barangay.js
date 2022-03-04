@@ -107,7 +107,6 @@ const Barangays = () => {
         data={datas}
         title="Tanauan Vaccines Data"
         columns={columns}
-        data={datas}
         options={{
           sorting: true,
           exportButton: true,

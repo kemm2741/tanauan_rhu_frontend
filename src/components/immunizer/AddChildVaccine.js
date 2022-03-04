@@ -249,11 +249,15 @@ const AddVaccineChild = () => {
             setIsLoading(false);
             Swal.fire("Success ", `${data.msg}`, "success");
             return setUserData(initalState);
+          } else {
+            Swal.fire("Error ", `${data.msg}`, "error");
+            setUserData(initalState);
+            setIsLoading(false);
           }
         } catch (error) {
-          setIsLoading(false);
           Swal.fire("Warning", `${error.response.data.msg}`, "warning");
           setUserData(initalState);
+          setIsLoading(false);
         }
       }
     });

@@ -53,6 +53,7 @@ const Immunizations = () => {
       type: "date",
       field: "schedule",
       filtering: false,
+      disablePast: true,
       dateSetting: {
         format: "dd/MM/yyyy",
       },
