@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
+import Swal from "sweetalert2";
+import Avatar from "@material-ui/core/Avatar";
+import { deepOrange, deepPurple } from "@material-ui/core/colors";
 
 // React Router Dom
 import { useHistory } from "react-router-dom";
@@ -94,6 +97,13 @@ const useStyles = makeStyles((theme) => ({
   nested: {
     paddingLeft: theme.spacing(4),
   },
+  menu: {
+    marginTop: "50px",
+  },
+  orange: {
+    color: theme.palette.getContrastText(deepOrange[500]),
+    backgroundColor: deepOrange[500],
+  },
 }));
 
 function ImmunizerLayout({ children }) {
@@ -179,7 +189,7 @@ function ImmunizerLayout({ children }) {
               className={classes.nested}
             >
               <ListItemIcon>
-                <GiLoveInjection size={25} />
+                <FaUsers size={25} />
               </ListItemIcon>
               <ListItemText primary="My immunized" />
             </ListItem>
@@ -200,6 +210,8 @@ function ImmunizerLayout({ children }) {
           </ListItem>
         </List>
 
+        {/*! Logout */}
+        {/* 
         <ListItem
           onClick={() => {
             logout();
@@ -211,7 +223,7 @@ function ImmunizerLayout({ children }) {
             <AiOutlineLogout size={32} />
           </ListItemIcon>
           <ListItemText primary={"Logout"} />
-        </ListItem>
+        </ListItem> */}
       </List>
     </div>
   );
@@ -260,19 +272,17 @@ function ImmunizerLayout({ children }) {
             </IconButton>
           </Tooltip> */}
           <Tooltip arrow title="Profile">
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls="simple-menu"
-              aria-haspopup="true"
+            <Avatar
+              className={classes.orange}
               onClick={handleClick}
-              color="inherit"
+              style={{ cursor: "pointer" }}
             >
-              <AccountCircle />
-            </IconButton>
+              {admin?.user?.firstname[0]}
+            </Avatar>
           </Tooltip>
           {/* Admin Profule Menus */}
           <Menu
+            className={classes.menu}
             id="simple-menu"
             anchorEl={anchorEl}
             keepMounted
@@ -294,9 +304,27 @@ function ImmunizerLayout({ children }) {
             >
               Change Passowrd
             </MenuItem>
-
-            {/* <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem> */}
+            <MenuItem
+              onClick={() => {
+                handleClose();
+                Swal.fire({
+                  title: "Leaving now?",
+                  text: "Are you sure you want to logout?",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Yes",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    logout();
+                    history.push("/");
+                  }
+                });
+              }}
+            >
+              Logout
+            </MenuItem>
           </Menu>
           {/*  */}
         </Toolbar>

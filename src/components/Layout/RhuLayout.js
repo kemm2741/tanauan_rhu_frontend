@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
+import Swal from "sweetalert2";
+import Avatar from "@material-ui/core/Avatar";
 
 // React Router Dom
 import { useHistory } from "react-router-dom";
@@ -6,11 +8,8 @@ import { useHistory } from "react-router-dom";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import Collapse from "@material-ui/core/Collapse";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
-import SendIcon from "@material-ui/icons/Send";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import StarBorder from "@material-ui/icons/StarBorder";
 
 // Material UI
 import AppBar from "@material-ui/core/AppBar";
@@ -92,6 +91,9 @@ const useStyles = makeStyles((theme) => ({
   },
   nested: {
     paddingLeft: theme.spacing(4),
+  },
+  menu: {
+    marginTop: "50px",
   },
 }));
 
@@ -255,10 +257,22 @@ function Layout({ children }) {
           </List>
         </Collapse>
 
-        <ListItem
+        {/* <ListItem
           onClick={() => {
-            logout();
-            history.push("/");
+            Swal.fire({
+              title: "Leaving now?",
+              text: "Are you sure you want to logout?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Yes",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                logout();
+                history.push("/");
+              }
+            });
           }}
           button
         >
@@ -266,7 +280,7 @@ function Layout({ children }) {
             <AiOutlineLogout size={32} />
           </ListItemIcon>
           <ListItemText primary={"Logout"} />
-        </ListItem>
+        </ListItem> */}
       </List>
     </div>
   );
@@ -315,19 +329,16 @@ function Layout({ children }) {
             </IconButton>
           </Tooltip> */}
           <Tooltip arrow title="Profile">
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls="simple-menu"
-              aria-haspopup="true"
+            <Avatar
+              style={{ cursor: "pointer" }}
               onClick={handleClick}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+              alt={admin?.user?.firstname}
+              src={admin?.user?.profile?.url}
+            />
           </Tooltip>
           {/* Admin Profule Menus */}
           <Menu
+            className={classes.menu}
             id="simple-menu"
             anchorEl={anchorEl}
             keepMounted
@@ -350,8 +361,27 @@ function Layout({ children }) {
               Change Password
             </MenuItem>
 
-            {/* <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem> */}
+            <MenuItem
+              onClick={() => {
+                handleClose();
+                Swal.fire({
+                  title: "Leaving now?",
+                  text: "Are you sure you want to logout?",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Yes",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    logout();
+                    history.push("/");
+                  }
+                });
+              }}
+            >
+              Logout
+            </MenuItem>
           </Menu>
           {/*  */}
         </Toolbar>

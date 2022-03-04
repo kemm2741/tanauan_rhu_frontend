@@ -336,6 +336,7 @@ const Addimmunizer = () => {
                     label="Contact Number"
                     variant="outlined"
                     fullWidth
+                    type="number"
                   />
                 </Grid>
 

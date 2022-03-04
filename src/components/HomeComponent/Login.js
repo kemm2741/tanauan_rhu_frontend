@@ -91,6 +91,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
+  textField: {
+    paddingBottom: "13px",
+  },
 }));
 
 function ElevationScroll(props) {
@@ -154,7 +157,7 @@ export default function Login(props) {
     }
 
     if (loginData.loginAs === "") {
-      return Swal.fire("Error Login", "Login as in must be set", "error");
+      return Swal.fire("Error Login", "Login as must be set", "error");
     }
 
     // Login Immunizer
@@ -234,8 +237,8 @@ export default function Login(props) {
                 )}
 
                 <TextField
+                  className={classes.textField}
                   variant="outlined"
-                  margin="normal"
                   required
                   fullWidth
                   id="email"
@@ -247,8 +250,8 @@ export default function Login(props) {
                   autoFocus
                 />
                 <TextField
+                  className={classes.textField}
                   variant="outlined"
-                  margin="normal"
                   required
                   fullWidth
                   onChange={handleOnChange}
@@ -259,12 +262,9 @@ export default function Login(props) {
                   id="password"
                   autoComplete="current-password"
                 />
-                {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
 
                 <TextField
+                  variant="outlined"
                   onChange={handleOnChange}
                   name="loginAs"
                   value={loginData.loginAS}
@@ -308,16 +308,7 @@ export default function Login(props) {
                       Forgot password?
                     </Link>
                   </Grid>
-                  <Grid item>
-                    {/* <Link
-                  onClick={() => {
-                    history.push("/register");
-                  }}
-                  variant="body2"
-                >
-                  {"Don't have an account? Sign Up"}
-                </Link> */}
-                  </Grid>
+                  <Grid item></Grid>
                 </Grid>
               </form>
             </div>

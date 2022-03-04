@@ -113,9 +113,7 @@ const AddVacinator = () => {
   const [userData, setUserData] = useState(initalState);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [selectedDate, setSelectedDate] = React.useState(
-    new Date("2020-08-18T21:11:54")
-  );
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -195,8 +193,6 @@ const AddVacinator = () => {
     if (calculateAge(new Date(selectedDate)) <= 20) {
       return Swal.fire("Error", "You must be 21 to be a vaccinator", "error");
     }
-
-    console.log(userData);
 
     // Success No Error
     try {
@@ -342,6 +338,7 @@ const AddVacinator = () => {
                     label="Contact Number"
                     variant="outlined"
                     fullWidth
+                    type="number"
                   />
                 </Grid>
 

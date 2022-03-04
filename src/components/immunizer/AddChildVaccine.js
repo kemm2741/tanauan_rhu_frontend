@@ -34,7 +34,8 @@ import {
 const useStyles = makeStyles((theme) => ({
   formContainer: {
     width: "530px",
-    margin: "0 auto",
+    marginTop: "25px",
+    marginInline: "auto",
     padding: theme.spacing(3),
     paddingTop: theme.spacing(2),
     [theme.breakpoints.down("xs")]: {
@@ -75,6 +76,9 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  circularContainer: {
+    marginTop: "50px",
+  },
 }));
 
 //
@@ -111,10 +115,7 @@ const AddVaccineChild = () => {
   //   Fetched Barangays
   const [barangays, setBarangays] = useState([]);
 
-  const [selectedDate, setSelectedDate] = useState(
-    // new Date("2020-08-18T21:11:54")
-    ""
-  );
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleDateChange = (date) => {
     console.log(1);
@@ -216,9 +217,8 @@ const AddVaccineChild = () => {
     }
 
     // Success No Error
-
     Swal.fire({
-      title: "Please review before sending",
+      title: "Please review before creating",
       text: "You won't be able to edit this!",
       icon: "warning",
       showCancelButton: true,
@@ -267,7 +267,9 @@ const AddVaccineChild = () => {
   return (
     <Grid justifyContent="center" container>
       {isLoading ? (
-        <CircularProgress />
+        <div className={classes.circularContainer}>
+          <CircularProgress />
+        </div>
       ) : (
         <>
           <Modal
@@ -374,11 +376,7 @@ const AddVaccineChild = () => {
                         id="date-picker-dialog"
                         label="Birth Day"
                         format="MM/dd/yyyy"
-                        value={
-                          selectedDate === ""
-                            ? new Date("2020-08-18T21:11:54")
-                            : selectedDate
-                        }
+                        value={selectedDate === "" ? new Date() : selectedDate}
                         // value={selectedDate}
                         onChange={handleDateChange}
                         variant="outlined"

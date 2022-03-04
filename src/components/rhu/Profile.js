@@ -245,6 +245,7 @@ const Profile = () => {
                       label="Enter Contact Number"
                       variant="outlined"
                       fullWidth
+                      type="number"
                     />
                   </Grid>
                   <Grid xs={12} sm={12} item>

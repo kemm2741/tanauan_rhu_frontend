@@ -38,12 +38,15 @@ const Immunizations = () => {
 
   const fetchImmunizedChildrenByImmunizer = async () => {
     try {
+      setIsLoading(true);
       const { data } = await axios.get(
         `https://tanuan-backend.herokuapp.com/api/immunizer/get-immunize-children-immunizer`
       );
       setDatas(data.data);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 

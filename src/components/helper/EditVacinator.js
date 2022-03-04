@@ -119,9 +119,7 @@ const EditVaccinator = () => {
   const [userData, setUserData] = useState(initalState);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [selectedDate, setSelectedDate] = React.useState(
-    new Date("2020-08-18T21:11:54")
-  );
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -394,6 +392,7 @@ const EditVaccinator = () => {
                     label="Contact"
                     variant="outlined"
                     fullWidth
+                    type="number"
                   />
                 </Grid>
 
